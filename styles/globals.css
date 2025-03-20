@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.ant-layout {
+  @apply flex flex-col !h-screen;
+}
+
+.ant-layout-sider-children {
+  @apply relative;
+}

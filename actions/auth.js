@@ -5,6 +5,12 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 
+export async function login(formData) {
+  const supabase = await createClient();
+
+  return await supabase.auth.signInWithPassword(formData);
+}
+
 export async function logout() {
   const supabase = await createClient();
 
@@ -21,7 +27,7 @@ export async function getUser() {
 
   const { data, error } = await supabase.auth.getUser();
   if (error) {
-    redirect("/login");
+    redirect("/auth/login");
   }
 
   return data.user;

@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+    <h1>--// Finance Tracker //--</h1>
+    <img src="https://img.shields.io/github/last-commit/klpod221/finance-tracker?style=for-the-badge&color=ffb4a2&labelColor=201a19">
+    <img src="https://img.shields.io/github/stars/klpod221/finance-tracker?style=for-the-badge&color=e6c419&labelColor=1d1b16">
+    <img src="https://img.shields.io/github/repo-size/klpod221/finance-tracker?style=for-the-badge&color=a8c7ff&labelColor=1a1b1f">
+</div>
 
-## Getting Started
+## About
 
-First, run the development server:
+This is a simple finance tracker that allows you to keep track of your income and expenses. It is built using Next.js, Ant Design, and Supabase database to store the data so you can easily host your app on Vercel for free.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The goal of this project is to provide a simple and easy-to-use finance tracker that can be used by anyone. It is not meant to be a full-fledged finance management tool, but rather a simple way to keep track of your income and expenses.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- [x] User authentication
+- [x] User registration
+- [ ] Add, edit, and delete transactions
+- [ ] Customizable income and expense categories, tags, colors, and icons
+- [ ] Customizable currencies, dates, and timezones
+- [ ] Customizable income and expense limits with notifications
+- [ ] Customizable savings and investments
+- [ ] Group finance tracker
+- [ ] Dashboard with charts to visualize your income and expenses
+- [ ] API to add transactions (maybe useful for read bank notifications or something)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+- [Next.js](https://nextjs.org/)
+- [Vercel](https://vercel.com/)
+- [Supabase](https://supabase.com/)
+- [Ant Design](https://ant.design/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-To learn more about Next.js, take a look at the following resources:
+## Host your own
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork this repository
+2. Go to [Vercel](https://vercel.com/) and create an account
+3. Import your forked repository
+4. Set up the environment variables
+5. Add a supabase database following the instructions in the supabase dashboard
+6. Deploy your app
+7. Enjoy!
