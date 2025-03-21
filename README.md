@@ -7,7 +7,7 @@
 
 ## About
 
-This is a simple finance tracker that allows you to keep track of your income and expenses. It is built using Next.js, Ant Design, and Supabase database to store the data so you can easily host your app on Vercel for free.
+This is a simple finance tracker that allows you to keep track of your income and expenses. It is built using Next.js, Ant Design, Supabase database to store the data and Redis to cache the data so you can easily host your app on Vercel for free.
 
 The goal of this project is to provide a simple and easy-to-use finance tracker that can be used by anyone. It is not meant to be a full-fledged finance management tool, but rather a simple way to keep track of your income and expenses.
 
@@ -29,6 +29,7 @@ The goal of this project is to provide a simple and easy-to-use finance tracker 
 - [Next.js](https://nextjs.org/)
 - [Vercel](https://vercel.com/)
 - [Supabase](https://supabase.com/)
+- [Redis](https://redis.io/)
 - [Ant Design](https://ant.design/)
 - [Tailwind CSS](https://tailwindcss.com/)
 
@@ -38,6 +39,7 @@ The goal of this project is to provide a simple and easy-to-use finance tracker 
 2. Go to [Vercel](https://vercel.com/) and create an account
 3. Import your forked repository
 4. Set up the environment variables
-5. Add a supabase database following the instructions in the supabase dashboard
-6. Deploy your app
-7. Enjoy!
+5. Add a supabase database on Vercel dashboard Storage tab
+6. Add a redis database on Vercel dashboard Storage tab
+7. Deploy your app
+8. Enjoy!
