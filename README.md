@@ -38,8 +38,9 @@ The goal of this project is to provide a simple and easy-to-use finance tracker 
 1. Fork this repository
 2. Go to [Vercel](https://vercel.com/) and create an account
 3. Import your forked repository
-4. Set up the environment variables
-5. Add a supabase database on Vercel dashboard Storage tab
+4. Add a supabase database on Vercel dashboard Storage tab
+5. Goto supabase dashboard/SQL editor and run the SQL script in `database/supabase_migration.sql` and after that run the `database/materialized_view.sql` script
 6. Add a redis database on Vercel dashboard Storage tab
-7. Deploy your app
-8. Enjoy!
+7. Set up the environment variables
+8. Deploy your app
+9. Enjoy!
