@@ -73,7 +73,7 @@ export default function PrivateSidebar({ collapsed, setCollapsed }) {
 
   return (
     <Layout.Sider
-      className="!fixed lg:!relative top-0 h-screen"
+      className="!fixed z-50 lg:!relative top-0 h-screen"
       trigger={null}
       collapsible
       collapsed={collapsed}
