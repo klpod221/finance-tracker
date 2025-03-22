@@ -16,6 +16,8 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BellOutlined,
+  BellFilled,
+  GithubOutlined,
 } from "@ant-design/icons";
 import { Layout, Button, Dropdown, Badge, Popover, List, Avatar } from "antd";
 const { Header } = Layout;
@@ -58,7 +60,7 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
         >
           <div className="flex items-center gap-2">
             <Avatar
-              icon={<BellOutlined />}
+              icon={item.read ? <BellOutlined /> : <BellFilled />}
               className={`!bg-gray-200 !text-gray-500`}
             />
             <div>
@@ -125,6 +127,17 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
       />
 
       <div className="flex items-center gap-5">
+        <Button type="text" className="!p-0">
+          <a
+            href="https://github.com/klpod221/finance-tracker"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group"
+          >
+            <GithubOutlined className="text-xl group-hover:scale-125 transition-all duration-200" />
+          </a>
+        </Button>
+
         <Popover
           content={notificationContent}
           title={
@@ -139,7 +152,11 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
           trigger="click"
         >
           <Badge count={unreadCount}>
-            <BellOutlined className="text-xl cursor-pointer" />
+            {unreadCount > 0 ? (
+              <BellFilled className="text-xl cursor-pointer animate-bell hover:scale-125 transition-all duration-200" />
+            ) : (
+              <BellOutlined className="text-xl cursor-pointer hover:scale-125 transition-all duration-200" />
+            )}
           </Badge>
         </Popover>
 
