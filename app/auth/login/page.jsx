@@ -2,14 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth";
-
-import { useNotify } from "@/utils/notification";
+import { useNotify } from "@/utils/notify";
+import { useUserStore } from "@/store/userStore";
 
 import { Checkbox, Form, Input } from "antd";
 
 export default function LoginPage() {
   const router = useRouter();
   const notify = useNotify();
+
+  const { fetchUserInfo } = useUserStore();
 
   const handleSubmit = async (formData) => {
     notify.loading("Logging in...");
@@ -24,6 +26,8 @@ export default function LoginPage() {
       }
 
       notify.success("Login successful!");
+      
+      await fetchUserInfo();
       router.push("/dashboard");
     } catch (error) {
       notify.error("Login failed. Please try again.");
@@ -37,7 +41,7 @@ export default function LoginPage() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               alt="Your Company"
-              src="/logo.png"
+              src="/images/logo.png"
               className="mx-auto h-20 w-auto"
             />
             <h2 className="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">

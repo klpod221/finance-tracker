@@ -1,27 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
-import { DashboardOutlined, MenuFoldOutlined, PhoneOutlined } from "@ant-design/icons";
+import {
+  DashboardOutlined,
+  SwapOutlined,
+  TagsOutlined,
+  WalletOutlined,
+  LineChartOutlined,
+  TeamOutlined,
+  SettingOutlined,
+  QuestionCircleOutlined,
+  MenuFoldOutlined,
+} from "@ant-design/icons";
 
 import { Layout, Menu, Button } from "antd";
 
 const menuItems = [
+  { key: "dashboard", icon: <DashboardOutlined />, label: "Dashboard" },
+  { key: "transactions", icon: <SwapOutlined />, label: "Transactions" },
+  { key: "categories", icon: <TagsOutlined />, label: "Categories" },
+  { key: "budgets", icon: <WalletOutlined />, label: "Budgets & Limits" },
   {
-    key: "dashboard",
-    icon: <DashboardOutlined />,
-    label: "Dashboard",
+    key: "savings",
+    icon: <LineChartOutlined />,
+    label: "Savings Goals",
   },
-  {
-    key: "help",
-    icon: <PhoneOutlined />,
-    label: "Help",
-  }
+  { key: "groups", icon: <TeamOutlined />, label: "Financial Groups" },
+  { key: "settings", icon: <SettingOutlined />, label: "Settings" },
+  { key: "help", icon: <QuestionCircleOutlined />, label: "Help & Support" },
 ];
 
 export default function PrivateSidebar({ collapsed, setCollapsed }) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [selectedKey, setSelectedKey] = useState();
   const [isMobile, setIsMobile] = useState(false);
   const [collapsedWidth, setCollapsedWidth] = useState(80);
+
+  useEffect(() => {
+    setSelectedKey(pathname.split("/")[1] || "dashboard");
+  }, [pathname]);
+
+  const onMenuClick = (e) => {
+    setSelectedKey(e.key);
+    router.push(`/${e.key}`);
+  }
 
   // automatically collapse the sidebar on mobile devices
   React.useEffect(() => {
@@ -62,6 +88,8 @@ export default function PrivateSidebar({ collapsed, setCollapsed }) {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["dashboard"]}
+        selectedKeys={[selectedKey]}
+        onClick={onMenuClick}
         items={menuItems}
       />
 

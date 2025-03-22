@@ -1,16 +1,20 @@
 "use client";
 
 import React from "react";
-
+import { redirect } from "next/navigation";
 import PublicLayout from "@/component/layout/public/Layout";
 import { Button } from "antd";
-
 import { LoginOutlined, GithubOutlined } from "@ant-design/icons";
 
 export default function Home() {
   return (
     <PublicLayout>
       <div className="flex flex-col items-center justify-center h-screen">
+        <img 
+          src="/images/logo.png"
+          alt="Logo"
+          className="w-32 h-32 lg:w-42 lg:h-42 mb-4"
+        />
         <h1 className="text-2xl lg:text-4xl font-bold">
           Welcome to Finance Tracker
         </h1>
@@ -21,7 +25,7 @@ export default function Home() {
           <Button
             type="primary"
             className="mr-2"
-            onClick={() => window.open("/auth/login", "_self")}
+            onClick={() => redirect("/auth/login")}
           >
             <LoginOutlined />
             Login
@@ -37,7 +41,7 @@ export default function Home() {
             }
           >
             <GithubOutlined />
-            Github
+            Source
           </Button>
         </div>
       </div>

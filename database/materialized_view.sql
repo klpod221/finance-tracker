@@ -4,14 +4,14 @@
 DROP MATERIALIZED VIEW IF EXISTS user_balance;
 CREATE MATERIALIZED VIEW user_balance AS
 SELECT 
-    u.user_id,
+    u.id,
     COALESCE(SUM(CASE WHEN c.type = 'income' THEN t.amount ELSE 0 END), 0) AS total_income,
     COALESCE(SUM(CASE WHEN c.type = 'expense' THEN t.amount ELSE 0 END), 0) AS total_expense,
     COALESCE(SUM(CASE WHEN c.type = 'income' THEN t.amount ELSE -t.amount END), 0) AS balance
-FROM user_profile u
-LEFT JOIN transactions t ON u.user_id = t.user_id
+FROM users u
+LEFT JOIN transactions t ON u.id = t.user_id
 LEFT JOIN categories c ON t.category_id = c.id
-GROUP BY u.user_id;
+GROUP BY u.id;
 
 -- ==============================
 -- 2. Hiển thị số dư của từng nhóm
@@ -99,7 +99,7 @@ SELECT
     c.name AS category_name,
     c.color AS category_color
 FROM transactions t
-LEFT JOIN user_profile u ON t.user_id = u.user_id
+LEFT JOIN users u ON t.user_id = u.id
 LEFT JOIN categories c ON t.category_id = c.id
 WHERE t.group_id IS NOT NULL
 ORDER BY t.date DESC
@@ -127,15 +127,25 @@ LIMIT 20;
 -- Tạo cronjob
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
--- Làm mới Materialized View mỗi giờ
-SELECT cron.schedule('0 * * * *', 'REFRESH MATERIALIZED VIEW user_balance');
-SELECT cron.schedule('0 * * * *', 'REFRESH MATERIALIZED VIEW group_balance');
-SELECT cron.schedule('0 * * * *', 'REFRESH MATERIALIZED VIEW recent_group_transactions');
-SELECT cron.schedule('0 * * * *', 'REFRESH MATERIALIZED VIEW recent_user_transactions');
+-- Remove all existing cron jobs
+-- check cron jobs exists
+-- SELECT cron.unschedule('user_balance') IF EXISTS;
+-- SELECT cron.unschedule('group_balance');
+-- SELECT cron.unschedule('recent_group_transactions');
+-- SELECT cron.unschedule('recent_user_transactions');
+-- SELECT cron.unschedule('category_spending');
+-- SELECT cron.unschedule('monthly_transactions');
+-- SELECT cron.unschedule('spending_limits');
+
+-- Làm mới mỗi giờ
+SELECT cron.schedule('user_balance','0 * * * *', 'REFRESH MATERIALIZED VIEW user_balance');
+SELECT cron.schedule('group_balance', '0 * * * *', 'REFRESH MATERIALIZED VIEW group_balance');
+SELECT cron.schedule('recent_group_transactions','0 * * * *', 'REFRESH MATERIALIZED VIEW recent_group_transactions');
+SELECT cron.schedule('recent_user_transactions','0 * * * *', 'REFRESH MATERIALIZED VIEW recent_user_transactions');
 
 -- Làm mới mỗi 6h
-SELECT cron.schedule('0 */6 * * *', 'REFRESH MATERIALIZED VIEW category_spending');
+SELECT cron.schedule('category_spending', '0 */6 * * *', 'REFRESH MATERIALIZED VIEW category_spending');
 
 -- Làm mới mỗi ngày
-SELECT cron.schedule('0 0 * * *', 'REFRESH MATERIALIZED VIEW monthly_transactions');
-SELECT cron.schedule('0 0 * * *', 'REFRESH MATERIALIZED VIEW spending_limits');
+SELECT cron.schedule('monthly_transactions', '0 0 * * *', 'REFRESH MATERIALIZED VIEW monthly_transactions');
+SELECT cron.schedule('spending_limits', '0 0 * * *', 'REFRESH MATERIALIZED VIEW spending_limits');
