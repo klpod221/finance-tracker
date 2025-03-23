@@ -1,5 +1,5 @@
-import PasswordChange from "@/component/PasswordChange";
-import ProfileCard from "@/component/ProfileCard";
+import PasswordChange from "@/component/settings/PasswordChange";
+import ProfileCard from "@/component/settings/ProfileCard";
 import { HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 
@@ -7,7 +7,6 @@ export const metadata = {
   title: "Settings | Financial Tracker by klpod221",
   description: "Change your profile, password and other settings",
 };
-
 
 export default function Settings() {
   return (
