@@ -80,17 +80,9 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
 
   const items = [
     {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: "Profile",
-    },
-    {
       key: "settings",
       icon: <SettingOutlined />,
-      label: "Settings",
-    },
-    {
-      type: "divider",
+      label: <span onClick={() => router.push("/settings")}>Settings</span>,
     },
     {
       key: "logout",
@@ -165,6 +157,7 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
             items,
           }}
           arrow
+          className="h-fit"
         >
           <div className="flex items-center cursor-pointer pr-4 group">
             <Avatar
@@ -173,7 +166,9 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
               className="mr-2 group-hover:scale-120 transition-all duration-200"
               src={user.avatar}
             />
-            <span className="hidden ml-1 lg:block">{user.name}</span>
+            <div className="hidden ml-1 lg:block text-sm">
+              {user.name || user.email.split("@")[0]}
+            </div>
           </div>
         </Dropdown>
       </div>

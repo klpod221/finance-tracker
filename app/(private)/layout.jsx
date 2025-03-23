@@ -20,6 +20,11 @@ export default function Layout({ children }) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+        <img
+          src="/images/logo.png"
+          alt="Logo"
+          className="absolute top-0 left-0 right-0 bottom-0 m-auto w-20 h-20"
+        />
       </div>
     );
   } else if (!user) {

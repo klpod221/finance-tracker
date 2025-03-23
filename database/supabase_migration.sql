@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL,
+    avatar TEXT,
     currency TEXT DEFAULT 'VND',
     timezone TEXT DEFAULT 'Etc/UTC',
     created_at TIMESTAMP DEFAULT NOW(),

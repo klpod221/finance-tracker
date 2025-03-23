@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* logo color */
+/* #a0dc50 */
+
 .ant-layout {
   @apply flex flex-col !h-screen;
 }

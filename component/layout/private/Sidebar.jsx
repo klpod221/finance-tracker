@@ -27,7 +27,7 @@ const menuItems = [
     icon: <LineChartOutlined />,
     label: "Savings Goals",
   },
-  { key: "groups", icon: <TeamOutlined />, label: "Financial Groups" },
+  { key: "groups", icon: <TeamOutlined />, label: "Financial Groups", disabled: true },
   { key: "settings", icon: <SettingOutlined />, label: "Settings" },
   { key: "help", icon: <QuestionCircleOutlined />, label: "Help & Support" },
 ];
@@ -47,7 +47,7 @@ export default function PrivateSidebar({ collapsed, setCollapsed }) {
   const onMenuClick = (e) => {
     setSelectedKey(e.key);
     router.push(`/${e.key}`);
-  }
+  };
 
   // automatically collapse the sidebar on mobile devices
   React.useEffect(() => {
@@ -79,9 +79,9 @@ export default function PrivateSidebar({ collapsed, setCollapsed }) {
       collapsed={collapsed}
       collapsedWidth={collapsedWidth}
     >
-      <div className="h-8 m-4 bg-gray-800 rounded-lg flex items-center justify-center text-white font-bold">
+      <div className="h-8 m-4 flex items-center justify-center text-white font-bold">
         <a href="/" className="!text-white">
-          {collapsed ? "Logo" : "Company Logo"}
+          <img src="/images/logo.png" alt="Logo" className="w-8 h-8" />
         </a>
       </div>
       <Menu

@@ -8,7 +8,7 @@ import PrivateSidebar from "./Sidebar";
 import PrivateFooter from "./Footer";
 
 export default function PrivateLayout({ children }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <Layout>
