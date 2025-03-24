@@ -7,7 +7,6 @@ import {
   DashboardOutlined,
   SwapOutlined,
   TagsOutlined,
-  WalletOutlined,
   LineChartOutlined,
   TeamOutlined,
   SettingOutlined,
@@ -21,7 +20,6 @@ const menuItems = [
   { key: "dashboard", icon: <DashboardOutlined />, label: "Dashboard" },
   { key: "transactions", icon: <SwapOutlined />, label: "Transactions" },
   { key: "categories", icon: <TagsOutlined />, label: "Categories" },
-  { key: "budgets", icon: <WalletOutlined />, label: "Budgets & Limits" },
   {
     key: "savings",
     icon: <LineChartOutlined />,
