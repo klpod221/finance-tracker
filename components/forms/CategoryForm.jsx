@@ -2,15 +2,22 @@
 
 import React from "react";
 
+import MoneyInput from "@/components/common/MoneyInput";
+
 import { Form, Space, Input, Select, ColorPicker } from "antd";
 import * as Icons from "@ant-design/icons";
 
 export default function CategoryForm({ form, onFinish }) {
+  const [period, setPeriod] = React.useState(form.getFieldValue("period") || "monthly");
+
   return (
     <Form
       form={form}
       layout="vertical"
-      onFinish={onFinish}
+      onFinish={(values) => {
+        values.period = period;
+        onFinish(values);
+      }}
       initialValues={{
         type: "income",
         icon: "DollarCircleOutlined",
@@ -23,6 +30,25 @@ export default function CategoryForm({ form, onFinish }) {
         rules={[{ required: true, message: "Please enter a name" }]}
       >
         <Input />
+      </Form.Item>
+      <Form.Item name="budget" label="Budget">
+        <MoneyInput
+          addonBefore="VND"
+          addonAfter={
+            <Select
+              defaultValue={period}
+              onChange={(value) => {
+                setPeriod(value);
+              }}
+              options={[
+                { label: "/day", value: "daily" },
+                { label: "/weeks", value: "weekly" },
+                { label: "/months", value: "monthly" },
+              ]}
+              className="w-24"
+            />
+          }
+        />
       </Form.Item>
       <Form.Item
         name="type"

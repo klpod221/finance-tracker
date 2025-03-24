@@ -11,14 +11,10 @@ export default function MoneyInput({
 }) {
   return (
     <InputNumber
-      {...props}
       min={min <= 0 ? 0 : min}
       formatter={(value) =>
         value
-          ? `${value.replace(
-              /\B(?=(\d{3})+(?!\d))/g,
-              thousandSeparator
-            )}`
+          ? `${value.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator)}`
           : ""
       }
       parser={(value) =>
@@ -27,6 +23,8 @@ export default function MoneyInput({
           .replace(new RegExp(`\\${decimalSeparator}`), ".")
       }
       addonAfter={currency}
+      className="w-full"
+      {...props}
     />
   );
 }

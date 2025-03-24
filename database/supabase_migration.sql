@@ -1,7 +1,7 @@
 -- ==============================
 -- User Profile
 -- ==============================
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE categories (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL,
     name TEXT NOT NULL,
-    limit NUMERIC DEFAULT 0 CHECK (limit >= 0),
+    budget NUMERIC DEFAULT 0 CHECK (budget >= 0),
     period TEXT DEFAULT 'monthly' CHECK (period IN ('daily', 'weekly', 'monthly')),
     type TEXT NOT NULL CHECK (type IN ('income', 'expense')),
     color TEXT DEFAULT '#a0dc50',
@@ -89,9 +89,9 @@ CREATE TABLE transactions (
     date TIMESTAMP DEFAULT NOW(),
     created_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE SET NULL,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
-    FOREIGN KEY (savings_id) REFERENCES savings(id) ON DELETE SET NULL
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE RESTRICT,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT,
+    FOREIGN KEY (savings_id) REFERENCES savings(id) ON DELETE RESTRICT
 );
 
 -- ==============================
@@ -169,13 +169,13 @@ BEGIN
     -- If the transaction belongs to a group
     IF NEW.group_id IS NOT NULL THEN
         -- If it is an expense transaction
-        IF (NEW.category_id IS NOT NULL AND (SELECT type FROM categories WHERE id = NEW.category_id) = 'expense') THEN
+        IF (NEW.category_id IS NOT NULL AND COALESCE((SELECT type FROM categories WHERE id = NEW.category_id), '') = 'expense') THEN
             UPDATE group_balances
             SET total_expense = total_expense + NEW.amount,
                 balance = balance - NEW.amount
             WHERE group_id = NEW.group_id;
         -- If it is an income transaction
-        ELSIF (NEW.category_id IS NOT NULL AND (SELECT type FROM categories WHERE id = NEW.category_id) = 'income') THEN
+        ELSIF (NEW.category_id IS NOT NULL AND COALESCE((SELECT type FROM categories WHERE id = NEW.category_id), '') = 'income') THEN
             UPDATE group_balances
             SET total_income = total_income + NEW.amount,
                 balance = balance + NEW.amount
@@ -198,12 +198,12 @@ CREATE OR REPLACE FUNCTION adjust_user_balances()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Remove old transaction from user_balances
-    IF (OLD.category_id IS NOT NULL AND (SELECT type FROM categories WHERE id = OLD.category_id) = 'expense') THEN
+    IF (OLD.category_id IS NOT NULL AND COALESCE((SELECT type FROM categories WHERE id = OLD.category_id), '') = 'expense') THEN
         UPDATE user_balances
         SET total_expense = total_expense - OLD.amount,
             balance = balance + OLD.amount
         WHERE user_id = OLD.user_id;
-    ELSIF (OLD.category_id IS NOT NULL AND (SELECT type FROM categories WHERE id = OLD.category_id) = 'income') THEN
+    ELSIF (OLD.category_id IS NOT NULL AND COALESCE((SELECT type FROM categories WHERE id = OLD.category_id), '') = 'income') THEN
         UPDATE user_balances
         SET total_income = total_income - OLD.amount,
             balance = balance - OLD.amount
@@ -254,13 +254,13 @@ FOR EACH ROW EXECUTE FUNCTION adjust_group_balances();
 DROP MATERIALIZED VIEW IF EXISTS daily_transactions;
 CREATE MATERIALIZED VIEW daily_transactions AS
 SELECT 
-    user_id,
+    t.user_id,
     DATE(date) AS transaction_date,
     SUM(CASE WHEN c.type = 'income' THEN amount ELSE 0 END) AS total_income,
     SUM(CASE WHEN c.type = 'expense' THEN amount ELSE 0 END) AS total_expense
 FROM transactions t
 LEFT JOIN categories c ON t.category_id = c.id
-GROUP BY user_id, transaction_date;
+GROUP BY t.user_id, transaction_date;
 
 -- ==============================
 -- Monthly Transactions
@@ -268,13 +268,13 @@ GROUP BY user_id, transaction_date;
 DROP MATERIALIZED VIEW IF EXISTS monthly_transactions;
 CREATE MATERIALIZED VIEW monthly_transactions AS
 SELECT 
-    user_id,
+    t.user_id,
     DATE_TRUNC('month', date) AS transaction_month,
     SUM(CASE WHEN c.type = 'income' THEN amount ELSE 0 END) AS total_income,
     SUM(CASE WHEN c.type = 'expense' THEN amount ELSE 0 END) AS total_expense
 FROM transactions t
 LEFT JOIN categories c ON t.category_id = c.id
-GROUP BY user_id, transaction_month;
+GROUP BY t.user_id, transaction_month;
 
 -- ==============================
 -- Yearly Transactions
@@ -282,13 +282,13 @@ GROUP BY user_id, transaction_month;
 DROP MATERIALIZED VIEW IF EXISTS yearly_transactions;
 CREATE MATERIALIZED VIEW yearly_transactions AS
 SELECT 
-    user_id,
+    t.user_id,
     DATE_TRUNC('year', date) AS transaction_year,
     SUM(CASE WHEN c.type = 'income' THEN amount ELSE 0 END) AS total_income,
     SUM(CASE WHEN c.type = 'expense' THEN amount ELSE 0 END) AS total_expense
 FROM transactions t
 LEFT JOIN categories c ON t.category_id = c.id
-GROUP BY user_id, transaction_year;
+GROUP BY t.user_id, transaction_year;
 
 -- ==============================
 -- Category Transactions
@@ -303,6 +303,7 @@ SELECT
     SUM(amount) AS total_amount
 FROM transactions t
 LEFT JOIN categories c ON t.category_id = c.id
+WHERE t.category_id IS NOT NULL
 GROUP BY t.user_id, c.id, c.name, c.type;
 
 -- ==============================

@@ -8,7 +8,8 @@ import TagType from "@/components/common/TagType";
 import TagColor from "@/components/common/TagColor";
 import IconByName from "@/components/common/IconByName";
 
-import { formatDate } from "@/utils/helpers";
+import { formatDate, formatMoney } from "@/utils/helpers";
+import _ from "lodash";
 
 export default function CategoryTable() {
   const columns = [
@@ -22,6 +23,25 @@ export default function CategoryTable() {
       dataIndex: "name",
       sorter: true,
       render: (name) => <span>{name}</span>,
+    },
+    {
+      title: "Budget",
+      render: (_, record) => {
+        const budget = record.budget;
+        const period = record.period === "daily" ? "day" : record.period.replace("ly", "s");
+
+        return (
+          <span>
+            {budget ? (
+              <>
+                {formatMoney(budget)} / {period}
+              </>
+            ) : (
+              <span className="text-gray-400">No budget</span>
+            )}
+          </span>
+        );
+      }
     },
     {
       title: "Type",
