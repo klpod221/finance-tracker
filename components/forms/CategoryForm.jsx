@@ -1,15 +1,21 @@
+"use client";
+
 import React from "react";
 
-import { Form, Space, Input, Select, AutoComplete, ColorPicker } from "antd";
+import { Form, Space, Input, Select, ColorPicker } from "antd";
 import * as Icons from "@ant-design/icons";
 
-export default function CategoryForm({ form, onFinish, initialValues = {} }) {
+export default function CategoryForm({ form, onFinish }) {
   return (
     <Form
       form={form}
       layout="vertical"
       onFinish={onFinish}
-      initialValues={initialValues}
+      initialValues={{
+        type: "income",
+        icon: "DollarCircleOutlined",
+        color: "#a0dc50",
+      }}
     >
       <Form.Item
         name="name"
@@ -32,7 +38,8 @@ export default function CategoryForm({ form, onFinish, initialValues = {} }) {
         />
       </Form.Item>
       <Form.Item name="icon" label="Icon">
-        <AutoComplete
+        <Select
+          showSearch
           options={Object.keys(Icons).map((icon) => ({
             value: icon,
             label: (

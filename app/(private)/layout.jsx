@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
-import PrivateLayout from "../../component/layout/private/Layout";
+import PrivateLayout from "../../components/layout/private/Layout";
 
 import { Button } from "antd";
 import { LoginOutlined } from "@ant-design/icons";

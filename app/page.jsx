@@ -2,7 +2,7 @@
 
 import React from "react";
 import { redirect } from "next/navigation";
-import PublicLayout from "@/component/layout/public/Layout";
+import PublicLayout from "@/components/layout/public/Layout";
 import { Button } from "antd";
 import { LoginOutlined, GithubOutlined } from "@ant-design/icons";
 

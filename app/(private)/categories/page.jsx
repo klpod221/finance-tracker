@@ -1,7 +1,7 @@
-import { HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
+import { HomeOutlined } from "@ant-design/icons";
 
-import CategoryTable from "@/component/categories/CategoryTable";
+import CategoriesTable from "@/components/tables/CategoriesTable";
 
 export const metadata = {
   title: "Categories | Financial Tracker by klpod221",
@@ -23,7 +23,7 @@ export default function Categories() {
         ]}
       />
       <div className="mt-4">
-        <CategoryTable />
+        <CategoriesTable />
       </div>
     </>
   );

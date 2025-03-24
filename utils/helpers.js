@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import pluralize from "pluralize";
 
 /**
  * Format a date string to a more readable format.
@@ -9,6 +10,11 @@ import { DateTime } from "luxon";
  * @returns {string} - The formatted date string.
  */
 export function formatDate(dateString, format = "DD", timezone = "") {
+  // check if dateString is a string
+  if (typeof dateString !== "string") {
+    return "-";
+  }
+
   if (!dateString.trim()) return "-";
 
   if (!timezone) {
@@ -18,8 +24,27 @@ export function formatDate(dateString, format = "DD", timezone = "") {
   }
 }
 
-const helpers = {
-  formatDate,
-};
+/**
+ * Format money value to a more readable format.
+ *
+ * @param {number} value - The money value to format.
+ * @param {string} currency - The currency to use for formatting.
+ * @param {string} locale - The locale to use for formatting.
+ * @return {string} - The formatted money value.
+ */
+export function formatMoney(value, currency = "VND", locale = "vi-VN") {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(value);
+}
 
-export default helpers;
+/**
+ * Singularize a word 
+ * 
+ * @param {string} word - The word to singularize
+ * @return {string} - The singularized word
+ */
+export function singularize(word) {
+  return pluralize.singular(word);
+}

@@ -55,6 +55,19 @@ export async function search(
   };
 }
 
+export async function getAll() {
+  const supabase = await createClient();
+  const { data: user, error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    throw new Error(userError.message);
+  }
+
+  return await supabase
+    .from("categories")
+    .select("*")
+    .eq("user_id", user.user.id);
+}
+
 export async function create(formData) {
   const supabase = await createClient();
   const { data: user, error } = await supabase.auth.getUser();

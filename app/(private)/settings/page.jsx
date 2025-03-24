@@ -1,5 +1,5 @@
-import PasswordChange from "@/component/settings/PasswordChange";
-import ProfileCard from "@/component/settings/ProfileCard";
+import PasswordChange from "@/components/PasswordChange";
+import ProfileCard from "@/components/ProfileCard";
 import { HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 
