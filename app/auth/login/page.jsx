@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { login } from "@/actions/auth";
 import { useNotify } from "@/utils/notify";
-import { useUserStore } from "@/store/userStore";
 
 import { Button, Checkbox, Form, Input } from "antd";
 
@@ -11,15 +10,12 @@ export default function LoginPage() {
   const router = useRouter();
   const notify = useNotify();
 
-  const { fetchUserInfo } = useUserStore();
-
   const handleSubmit = async (formData) => {
     notify.loading("Logging in...");
 
     try {
       await login(formData);
       notify.success("Login successful!");
-      await fetchUserInfo();
       router.push("/dashboard");
     } catch (error) {
       notify.error(error.message || "Login failed!");
