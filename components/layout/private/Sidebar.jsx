@@ -78,9 +78,9 @@ export default function PrivateSidebar({ collapsed, setCollapsed }) {
       collapsedWidth={collapsedWidth}
     >
       <div className="h-8 m-4 flex items-center justify-center text-white font-bold">
-        <a href="/" className="!text-white">
+        <Button type="link" href="/">
           <img src="/images/logo.png" alt="Logo" className="w-8 h-8" />
-        </a>
+        </Button>
       </div>
       <Menu
         theme="dark"

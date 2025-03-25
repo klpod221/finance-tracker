@@ -5,7 +5,7 @@ import { login } from "@/actions/auth";
 import { useNotify } from "@/utils/notify";
 import { useUserStore } from "@/store/userStore";
 
-import { Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,13 +40,14 @@ export default function LoginPage() {
               Sign in to your account
             </h2>
             <p className="text-center text-sm/6 text-gray-500">
-              Not a member?{" "}
-              <a
+              Not a member?
+              <Button
+                type="link"
+                className="!px-1"
                 href="#"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
               >
                 Register now
-              </a>
+              </Button>
             </p>
           </div>
 
@@ -101,23 +102,22 @@ export default function LoginPage() {
                 </Form.Item>
 
                 <div className="text-sm">
-                  <a
+                  <Button
+                    type="link"
                     href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </Button>
                 </div>
               </div>
 
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
-                >
-                  Sign in
-                </button>
-              </div>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full"
+              >
+                Sign in
+              </Button>
             </Form>
           </div>
         </div>

@@ -2,14 +2,12 @@
 
 import { useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
-import { useRouter } from "next/navigation";
 import PrivateLayout from "../../components/layout/private/Layout";
 
 import { Button } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 
 export default function Layout({ children }) {
-  const router = useRouter();
   const { fetchUserInfo, loading, user } = useUserStore();
 
   useEffect(() => {
@@ -36,7 +34,7 @@ export default function Layout({ children }) {
           <Button
             type="primary"
             className="mr-2"
-            onClick={() => router.push("/auth/login")}
+            href="/auth/login"
           >
             <LoginOutlined />
             Login

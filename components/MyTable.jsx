@@ -8,10 +8,12 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import { useNotify } from "@/utils/notify";
 import { debounce } from "lodash";
 import dayjs from "dayjs";
 
+import { useUserStore } from "@/store/userStore";
+
+import { useNotify } from "@/utils/notify";
 import { singularize } from "@/utils/helpers";
 
 import { Input, Table, Button, Modal, Form, Space, Popconfirm } from "antd";
@@ -20,6 +22,7 @@ import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
+  ReloadOutlined,
 } from "@ant-design/icons";
 
 /**
@@ -36,6 +39,7 @@ import {
  * @param {Function} props.createFunction - The function to create a new item (optional)
  * @param {Function} props.updateFunction - The function to update an item (optional)
  * @param {Function} props.deleteFunction - The function to delete an item (optional)
+ * @param {boolean} props.refreshUserInfo - Whether to refresh user info after actions (default: false)
  * @param {string} props.rowKey - The key to identify each row (default: "id")
  * @param {string} props.className - Additional class names for the table
  * @param {string} props.title - The title of the table
@@ -55,6 +59,8 @@ const MyTable = forwardRef(
       createFunction = null,
       updateFunction = null,
       deleteFunction = null,
+      refreshUserInfo = false,
+      refreshButton = true,
       rowKey = "id",
       className = "",
       title = "",
@@ -67,6 +73,7 @@ const MyTable = forwardRef(
     ref
   ) => {
     const notify = useNotify();
+    const { refreshUser } = useUserStore();
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -192,7 +199,12 @@ const MyTable = forwardRef(
         createForm.resetFields();
         editForm.resetFields();
         setSelectedItem(null);
+        
         fetchData();
+
+        if (refreshUserInfo) {
+          refreshUser();
+        }
       } catch (error) {
         console.error("Error during submit:", error);
         notify.error(error.message || "Failed to submit");
@@ -225,6 +237,14 @@ const MyTable = forwardRef(
                 >
                   Add {singularize(title)}
                 </Button>
+              )}
+
+              {refreshButton && (
+                <Button
+                  type="default"
+                  icon={<ReloadOutlined />}
+                  onClick={fetchData}
+                />
               )}
             </div>
           </div>

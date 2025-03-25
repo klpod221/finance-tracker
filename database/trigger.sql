@@ -21,7 +21,7 @@ BEGIN
     UPDATE user_balances
     SET total_income = total_income + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE 0 END,
         total_expense = total_expense + CASE WHEN NEW.type = 'expense' THEN NEW.amount ELSE 0 END,
-        balance = total_income - total_expense
+        balance = balance + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE -NEW.amount END
     WHERE user_id = NEW.user_id;
 
     BEGIN
@@ -52,7 +52,7 @@ BEGIN
             UPDATE group_balances
             SET total_income = total_income + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE 0 END,
                 total_expense = total_expense + CASE WHEN NEW.type = 'expense' THEN NEW.amount ELSE 0 END,
-                balance = total_income - total_expense
+                balance = balance + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE -NEW.amount END
             WHERE group_id = NEW.group_id;
         ELSEIF NEW.category_id IS NOT NULL THEN
         ELSE
@@ -87,7 +87,7 @@ BEGIN
     UPDATE user_balances
     SET total_income = total_income - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE 0 END + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE 0 END,
         total_expense = total_expense - CASE WHEN OLD.type = 'expense' THEN OLD.amount ELSE 0 END + CASE WHEN NEW.type = 'expense' THEN NEW.amount ELSE 0 END,
-        balance = total_income - total_expense
+        balance = balance - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE -OLD.amount END + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE -NEW.amount END
     WHERE user_id = OLD.user_id;
 
     BEGIN
@@ -118,7 +118,7 @@ BEGIN
             UPDATE group_balances
             SET total_income = total_income - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE 0 END + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE 0 END,
                 total_expense = total_expense - CASE WHEN OLD.type = 'expense' THEN OLD.amount ELSE 0 END + CASE WHEN NEW.type = 'expense' THEN NEW.amount ELSE 0 END,
-                balance = total_income - total_expense
+                balance = balance - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE -OLD.amount END + CASE WHEN NEW.type = 'income' THEN NEW.amount ELSE -NEW.amount END
             WHERE group_id = NEW.group_id;
         ELSEIF NEW.category_id IS NOT NULL THEN
         ELSE
@@ -154,7 +154,7 @@ BEGIN
     UPDATE user_balances
     SET total_income = total_income - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE 0 END,
         total_expense = total_expense - CASE WHEN OLD.type = 'expense' THEN OLD.amount ELSE 0 END,
-        balance = total_income - total_expense
+        balance = balance - CASE WHEN OLD.type = 'income' THEN OLD.amount ELSE -OLD.amount END
     WHERE user_id = OLD.user_id;
 
     BEGIN

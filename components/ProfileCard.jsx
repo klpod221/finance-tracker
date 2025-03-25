@@ -105,6 +105,14 @@ export default function ProfileCard() {
           </Button>
         </div>
       </Form>
+
+      {/* show code */}
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">Debug Info</h3>
+        <pre className="bg-gray-100 p-2 rounded-md">
+          {JSON.stringify(user, null, 2)}
+        </pre>
+      </div>
     </Card>
   );
 }

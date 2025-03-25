@@ -6,10 +6,8 @@ import { formatDate, formatMoney } from "@/utils/helpers";
 import { create, search, update, remove } from "@/actions/transactions";
 import { getAll } from "@/actions/categories";
 
-import { Space } from "antd";
-
-import MyTable from "@/components/common/MyTable";
-import TagType from "@/components/common/TagType";
+import MyTable from "@/components/MyTable";
+import TagType from "@/components/TagType";
 import TransactionForm from "@/components/forms/TransactionForm";
 
 export default function TransactionTable() {
@@ -79,6 +77,7 @@ export default function TransactionTable() {
       createFunction={create}
       updateFunction={update}
       deleteFunction={remove}
+      refreshUserInfo={true}
       title="Transactions"
       description="Track your transactions with the Financial Tracker application"
       dataForm={TransactionForm}

@@ -1,12 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Button } from "antd";
 import { DashboardOutlined } from "@ant-design/icons";
 
 export default function NotFound() {
-  const router = useRouter();
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
@@ -20,7 +17,7 @@ export default function NotFound() {
         <Button
           type="primary"
           className="mr-2"
-          onClick={() => router.push("/dashboard")}
+          href="/dashboard"
         >
           <DashboardOutlined />
           Back to Dashboard

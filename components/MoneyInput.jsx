@@ -1,7 +1,7 @@
 import { InputNumber } from "antd";
 
 export default function MoneyInput({
-  currency = "USD",
+  currency = "VND",
   decimalSeparator = ".",
   thousandSeparator = ",",
   decimalScale = 2,

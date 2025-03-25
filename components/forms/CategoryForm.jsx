@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import MoneyInput from "@/components/common/MoneyInput";
+import MoneyInput from "@/components/MoneyInput";
 
 import { Form, Space, Input, Select, ColorPicker } from "antd";
 import * as Icons from "@ant-design/icons";

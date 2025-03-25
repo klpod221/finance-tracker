@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { redirect } from "next/navigation";
 import PublicLayout from "@/components/layout/public/Layout";
 import { Button } from "antd";
 import { LoginOutlined, GithubOutlined } from "@ant-design/icons";
@@ -25,20 +24,15 @@ export default function Home() {
           <Button
             type="primary"
             className="mr-2"
-            onClick={() => redirect("/auth/login")}
+            href="/auth/login"
           >
             <LoginOutlined />
             Login
           </Button>
           <Button
             type="default"
-            onClick={() =>
-              window.open(
-                "https://github.com/klpod221/finance-tracker",
-                "_blank",
-                "noopener,noreferrer"
-              )
-            }
+            href="https://github.com/klpod221/finance-tracker"
+            target="_blank"
           >
             <GithubOutlined />
             Source

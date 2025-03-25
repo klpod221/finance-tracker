@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import dayjs from "dayjs";
-import MoneyInput from "../common/MoneyInput";
+import MoneyInput from "../MoneyInput";
 
 import { Form, DatePicker, Input, Select } from "antd";
 

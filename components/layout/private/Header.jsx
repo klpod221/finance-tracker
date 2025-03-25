@@ -23,6 +23,7 @@ import { Layout, Button, Dropdown, Badge, Popover, List, Avatar } from "antd";
 const { Header } = Layout;
 
 import { getAll } from "@/actions/notification";
+import UserBalance from "@/components/UserBalance";
 
 export default function PrivateHeader({ collapsed, setCollapsed }) {
   const router = useRouter();
@@ -118,20 +119,18 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
         />
 
         <div className="flex items-center">
-          {formatMoney(user.balance || 100000000)}
+          <UserBalance />
         </div>
       </div>
 
       <div className="flex items-center gap-5">
-        <Button type="text" className="!p-0">
-          <a
-            href="https://github.com/klpod221/finance-tracker"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group"
-          >
-            <GithubOutlined className="text-xl group-hover:scale-125 transition-all duration-200" />
-          </a>
+        <Button
+          type="text"
+          className="!p-0 group"
+          href="https://github.com/klpod221/finance-tracker"
+          target="_blank"
+        >
+          <GithubOutlined className="text-xl group-hover:scale-125 transition-all duration-200" />
         </Button>
 
         <Popover
@@ -140,9 +139,9 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
             <div className="flex items-center gap-2 justify-between">
               <span>Notifications</span>
 
-              <a className="text-xs text-blue-500" href="#">
+              <Button type="link" className="!p-0" href="#">
                 Mark all as read
-              </a>
+              </Button>
             </div>
           }
           trigger="click"

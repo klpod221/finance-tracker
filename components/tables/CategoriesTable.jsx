@@ -4,10 +4,10 @@ import Link from "next/link";
 
 import { create, search, update, remove } from "@/actions/categories";
 
-import MyTable from "@/components/common/MyTable";
+import MyTable from "@/components/MyTable";
 import CategoryForm from "@/components/forms/CategoryForm";
-import TagColor from "@/components/common/TagColor";
-import IconByName from "@/components/common/IconByName";
+import TagColor from "@/components/TagColor";
+import IconByName from "@/components/IconByName";
 
 import { formatDate, formatMoney } from "@/utils/helpers";
 
