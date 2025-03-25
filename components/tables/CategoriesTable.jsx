@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
+
 import { create, search, update, remove } from "@/actions/categories";
 
 import MyTable from "@/components/common/MyTable";
 import CategoryForm from "@/components/forms/CategoryForm";
-import TagType from "@/components/common/TagType";
 import TagColor from "@/components/common/TagColor";
 import IconByName from "@/components/common/IconByName";
 
@@ -21,7 +22,7 @@ export default function CategoryTable() {
       title: "Name",
       dataIndex: "name",
       sorter: true,
-      render: (name) => <span>{name}</span>,
+      render: (name, record) => <Link href={`/categories/${record.id}`}>{name}</Link>,
     },
     {
       title: "Budget",
