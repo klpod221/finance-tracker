@@ -13,8 +13,7 @@ export default function PasswordChange() {
     notify.loading("Changing password...");
 
     try {
-      const { error } = await changePassword(formData);
-      if (error) throw error;
+      await changePassword(formData);
       notify.success("Password changed successfully!");
     } catch (error) {
       notify.error(error.message || "Failed to change password. Please try again.");
@@ -40,7 +39,7 @@ export default function PasswordChange() {
             { required: true, message: "Please input your new password!" },
           ]}
         >
-          <Input.Password placeholder="New Password" />
+          <Input.Password placeholder="New Password" autoComplete="new-password" />
         </Form.Item>
         <Form.Item
           label="Confirm New Password"
@@ -58,7 +57,7 @@ export default function PasswordChange() {
             }),
           ]}
         >
-          <Input.Password placeholder="Confirm New Password" />
+          <Input.Password placeholder="Confirm New Password" autoComplete="new-password" />
         </Form.Item>
 
         <Button

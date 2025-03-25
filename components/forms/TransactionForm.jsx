@@ -10,7 +10,7 @@ export default function TransactionForm({
   categories,
 }) {
   const categoriesOptions = categories.map((category) => ({
-    label: `${category.name} (${category.type})`,
+    label: `${category.name}`,
     value: category.id,
   }));
 
@@ -25,6 +25,7 @@ export default function TransactionForm({
         });
       }}
       initialValues={{
+        type: "expense",
         date: dayjs(),
         amount: 0,
       }}
@@ -34,6 +35,19 @@ export default function TransactionForm({
       </Form.Item>
       <Form.Item name="amount" label="Amount" rules={[{ required: true }]}>
         <MoneyInput className="w-full" />
+      </Form.Item>
+      <Form.Item
+        name="type"
+        label="Type"
+        rules={[{ required: true, message: "Please select a type" }]}
+      >
+        <Select
+          options={[
+            { label: "Income", value: "income" },
+            { label: "Expense", value: "expense" },
+          ]}
+          placeholder="Select a type"
+        />
       </Form.Item>
       <Form.Item
         name="category_id"

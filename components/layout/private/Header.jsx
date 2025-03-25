@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/actions/auth";
 
 import { useNotify } from "@/utils/notify";
-import { formatDate } from "@/utils/helpers";
+import { formatDate, formatMoney } from "@/utils/helpers";
 
 import {
   UserOutlined,
@@ -36,8 +36,8 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
     notify.loading("Logging out...");
     try {
       await logout();
-      deleteUser();
       notify.success("Logout successful!");
+      deleteUser();
       router.push("/auth/login");
     } catch (error) {
       notify.error("Logout failed. Please try again.");
@@ -95,12 +95,10 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const { data, error } = await getAll();
-        if (!error) {
-          setNotifications(data);
-          const unread = data.filter((item) => !item.read).length;
-          setUnreadCount(unread);
-        }
+        const { data } = await getAll();
+        setNotifications(data);
+        const unread = data.filter((item) => !item.read).length;
+        setUnreadCount(unread);
       } catch (error) {
         notify.error("An error occurred while fetching notifications");
       }
@@ -111,12 +109,18 @@ export default function PrivateHeader({ collapsed, setCollapsed }) {
 
   return (
     <Header className={`!p-0 !bg-white flex justify-between items-center`}>
-      <Button
-        type="text"
-        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        className="w-16 h-16 !text-lg"
-        onClick={() => setCollapsed(!collapsed)}
-      />
+      <div className="flex items-center gap-5">
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          className="w-16 h-16 !text-lg"
+          onClick={() => setCollapsed(!collapsed)}
+        />
+
+        <div className="flex items-center">
+          {formatMoney(user.balance || 100000000)}
+        </div>
+      </div>
 
       <div className="flex items-center gap-5">
         <Button type="text" className="!p-0">

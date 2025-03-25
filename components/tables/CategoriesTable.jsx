@@ -9,7 +9,6 @@ import TagColor from "@/components/common/TagColor";
 import IconByName from "@/components/common/IconByName";
 
 import { formatDate, formatMoney } from "@/utils/helpers";
-import _ from "lodash";
 
 export default function CategoryTable() {
   const columns = [
@@ -42,17 +41,6 @@ export default function CategoryTable() {
           </span>
         );
       }
-    },
-    {
-      title: "Type",
-      dataIndex: "type",
-      sorter: true,
-      filters: [
-        { text: "Income", value: "income" },
-        { text: "Expense", value: "expense" },
-      ],
-      filterMode: "tree",
-      render: (type) => <TagType type={type} />,
     },
     {
       title: "Color",

@@ -19,7 +19,6 @@ export default function CategoryForm({ form, onFinish }) {
         onFinish(values);
       }}
       initialValues={{
-        type: "income",
         icon: "DollarCircleOutlined",
         color: "#a0dc50",
       }}
@@ -48,19 +47,6 @@ export default function CategoryForm({ form, onFinish }) {
               className="w-24"
             />
           }
-        />
-      </Form.Item>
-      <Form.Item
-        name="type"
-        label="Type"
-        rules={[{ required: true, message: "Please select a type" }]}
-      >
-        <Select
-          options={[
-            { label: "Income", value: "income" },
-            { label: "Expense", value: "expense" },
-          ]}
-          placeholder="Select a type"
         />
       </Form.Item>
       <Form.Item name="icon" label="Icon">

@@ -5,16 +5,19 @@ import { createClient } from "@/utils/supabase/server";
 export async function update(formData) {
   const supabase = await createClient();
 
-  // get current user
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: auth} = await supabase.auth.getUser();
 
-  // update user profile
-  return await supabase
+  const res = await supabase
     .from("users")
-    .update({
+    .upsert({
+      id: auth.user.id,
       ...formData,
     })
-    .eq("id", user.id);
+    .select("*");
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
 }

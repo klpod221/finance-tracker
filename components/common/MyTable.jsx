@@ -195,7 +195,7 @@ const MyTable = forwardRef(
         fetchData();
       } catch (error) {
         console.error("Error during submit:", error);
-        notify.error("An error occurred, please try again.");
+        notify.error(error.message || "Failed to submit");
       }
     };
 

@@ -18,19 +18,11 @@ export default function LoginPage() {
 
     try {
       await login(formData);
-      const res = await login(formData);
-
-      if (res && res.error) {
-        notify.error(res.error.message);
-        return;
-      }
-
       notify.success("Login successful!");
-      
       await fetchUserInfo();
       router.push("/dashboard");
     } catch (error) {
-      notify.error("Login failed. Please try again.");
+      notify.error(error.message || "Login failed!");
     }
   };
 

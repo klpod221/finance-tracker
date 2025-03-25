@@ -15,8 +15,8 @@ The goal of this project is to provide a simple and easy-to-use finance tracker 
 
 - [x] User authentication
 - [x] User registration
-- [ ] Add, edit, and delete transactions
-- [ ] Customizable income and expense categories, tags, colors, and icons
+- [x] Add, edit, and delete transactions
+- [x] Customizable income and expense categories, tags, colors, and icons
 - [ ] Customizable currencies, dates, and timezones
 - [ ] Customizable income and expense limits with notifications
 - [ ] Customizable savings and investments
@@ -39,7 +39,7 @@ The goal of this project is to provide a simple and easy-to-use finance tracker 
 2. Go to [Vercel](https://vercel.com/) and create an account
 3. Import your forked repository
 4. Add a supabase database on Vercel dashboard Storage tab
-5. Goto supabase dashboard/SQL editor and run the `database/supabase_migration.sql` file
+5. Goto supabase dashboard/SQL editor and run the `database/migration.sql` file
 6. Add a redis database on Vercel dashboard Storage tab
 7. Set up the environment variables
 8. Deploy your app

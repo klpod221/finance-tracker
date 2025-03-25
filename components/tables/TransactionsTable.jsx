@@ -18,11 +18,8 @@ export default function TransactionTable() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await getAll();
-        if (res.error) {
-          throw new Error(res.error.message);
-        }
-        setCategories(res.data);
+        const { data } = await getAll();
+        setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -47,20 +44,24 @@ export default function TransactionTable() {
       render: (text) => formatMoney(text),
     },
     {
+      title: "Type",
+      dataIndex: "type",
+      sorter: true,
+      filters: [
+        { text: "Income", value: "income" },
+        { text: "Expense", value: "expense" },
+      ],
+      filterMode: "tree",
+      render: (type) => <TagType type={type} />,
+    },
+    {
       title: "Category",
       dataIndex: "category_id",
       key: "category",
       sorter: true,
       render: (text) => {
         const category = categories.find((cat) => cat.id === text);
-        return (
-          category && (
-            <Space>
-              {category.name}
-              <TagType type={category.type} />
-            </Space>
-          )
-        );
+        return category ? category.name : "Unknown";
       },
     },
     {

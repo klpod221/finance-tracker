@@ -17,30 +17,14 @@ export async function search(
 
   const { current, pageSize } = pagination;
   const { field, order } = sorter;
-  const { type } = filters;
 
-  let res = {};
-
-  if (type) {
-    res = await supabase
-      .from("categories")
-      .select("*", { count: "exact" })
-      .eq("user_id", user.user.id)
-      .ilike("name", `%${searchText}%`)
-      .in("type", type)
-      .order(field || "created_at", { ascending: order === "ascend" })
-      .range((current - 1) * pageSize, current * pageSize - 1);
-  } else {
-    res = await supabase
-      .from("categories")
-      .select("*", { count: "exact" })
-      .eq("user_id", user.user.id)
-      .ilike("name", `%${searchText}%`)
-      .order(field || "created_at", { ascending: order === "ascend" })
-      .range((current - 1) * pageSize, current * pageSize - 1);
-  }
-
-  const { data, count, error } = res;
+  const { data, count, error } = await supabase
+    .from("categories")
+    .select("*", { count: "exact" })
+    .eq("user_id", user.user.id)
+    .ilike("name", `%${searchText}%`)
+    .order(field || "created_at", { ascending: order === "ascend" })
+    .range((current - 1) * pageSize, current * pageSize - 1);
 
   if (error) {
     throw new Error(error.message);
@@ -62,10 +46,16 @@ export async function getAll() {
     throw new Error(userError.message);
   }
 
-  return await supabase
+  const res = await supabase
     .from("categories")
     .select("*")
     .eq("user_id", user.user.id);
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
 }
 
 export async function create(formData) {
@@ -75,25 +65,43 @@ export async function create(formData) {
     throw new Error(error.message);
   }
 
-  return await supabase
+  const res = await supabase
     .from("categories")
     .insert({
       ...formData,
       user_id: user.user.id,
     })
     .select("*");
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
 }
 
 export async function update(id, formData) {
   const supabase = await createClient();
-  return await supabase
+  const res = await supabase
     .from("categories")
     .update(formData)
     .eq("id", id)
     .select("*");
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
 }
 
 export async function remove(id) {
   const supabase = await createClient();
-  return await supabase.from("categories").delete().eq("id", id);
+  const res = await supabase.from("categories").delete().eq("id", id);
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
 }

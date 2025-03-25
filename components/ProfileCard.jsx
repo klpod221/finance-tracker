@@ -7,7 +7,7 @@ import { useNotify } from "@/utils/notify";
 
 import { update } from "@/actions/profile";
 
-import { Card, Avatar, Button, Form, Select } from "antd";
+import { Card, Avatar, Button, Form, Select, Input } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 
 export default function ProfileCard() {
@@ -35,11 +35,11 @@ export default function ProfileCard() {
   const handleSubmit = async (formData) => {
     notify.loading("Saving changes...");
     try {
-      const { data, error } = await update(formData);
-      if (error) throw error;
+      await update(formData);
       setUser({ ...user, ...formData });
       notify.success("Profile updated successfully!");
     } catch (error) {
+      console.error(error);
       notify.error("Failed to update profile. Please try again.");
     }
   };
@@ -58,7 +58,18 @@ export default function ProfileCard() {
         <div className="flex items-center gap-4">
           <Avatar size={64} src={user.avatar} icon={<UserOutlined />} />
           <div>
-            <h2 className="text-xl font-semibold">{user.name}</h2>
+            <Form.Item
+              name="name"
+              rules={[{ required: true, message: "Please enter your name" }]}
+              className="!mb-0"
+            >
+              <Input
+                placeholder="Enter your name"
+                defaultValue={user.name}
+                className="w-full"
+                onChange={(e) => setUser({ ...user, name: e.target.value })}
+              />
+            </Form.Item>
             <p className="text-gray-500">{user.email}</p>
           </div>
         </div>
@@ -66,12 +77,20 @@ export default function ProfileCard() {
         <div className="mt-4">
           <Form.Item label="Currency" name="currency">
             <Select
+              showSearch
+              filterOption={(input, option) =>
+                option.label.toLowerCase().includes(input.toLowerCase())
+              }
               options={currencyOptions}
               placeholder="Select your currency"
             />
           </Form.Item>
           <Form.Item label="Timezone" name="timezone">
             <Select
+              showSearch
+              filterOption={(input, option) =>
+                option.label.toLowerCase().includes(input.toLowerCase())
+              }
               options={timezoneOptions}
               placeholder="Select your timezone"
             />
