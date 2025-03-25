@@ -59,7 +59,7 @@ export async function search(
       .order(field || "created_at", { ascending: order === "ascend" })
       .range((current - 1) * pageSize, current * pageSize - 1);
   }
-  
+
   const { data, count, error } = res;
 
   if (error) {
@@ -97,17 +97,9 @@ export async function update(id, formData) {
   return res;
 }
 
-export async function remove() {
+export async function remove(id) {
   const supabase = await createClient();
-  const { data: user, error } = await supabase.auth.getUser();
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const res = await supabase
-    .from("transactions")
-    .delete()
-    .eq("user_id", user.user.id);
+  const res = await supabase.from("transactions").delete().eq("id", id);
 
   if (res.error) {
     throw new Error(res.error.message);

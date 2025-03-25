@@ -136,14 +136,13 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION delete_transaction()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Start update user balance
     -- check if user balance exists
     IF NOT EXISTS (SELECT 1 FROM user_balances WHERE user_id = OLD.user_id) THEN
         INSERT INTO user_balances (user_id, total_income, total_expense, balance)
         VALUES (OLD.user_id, 0, 0, 0);
     END IF;
 
-    -- Check user balance if delete income that make balance negative
+    -- Check if deleting an income would result in a negative user balance
     IF OLD.type = 'income' THEN
         IF (SELECT balance FROM user_balances WHERE user_id = OLD.user_id) < OLD.amount THEN
             RAISE EXCEPTION 'Insufficient balance';
@@ -174,7 +173,7 @@ BEGIN
                 VALUES (OLD.group_id, 0, 0, 0);
             END IF;
 
-            -- Check group balance if delete income that make balance negative
+            -- Check if deleting an income would result in a negative group balance
             IF OLD.type = 'income' THEN
                 IF (SELECT balance FROM group_balances WHERE group_id = OLD.group_id) < OLD.amount THEN
                     RAISE EXCEPTION 'Insufficient group balance';

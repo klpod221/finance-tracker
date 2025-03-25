@@ -10,7 +10,6 @@ export const useUserStore = create((set) => ({
     set({ loading: true });
     const { data, error } = await supabase.auth.getUser();
     if (!error) {
-      // get user profile and user balances using join
       const { data: userProfile } = await supabase
         .from("users")
         .select("*, user_balances(balance, total_income, total_expense)")
@@ -34,7 +33,6 @@ export const useUserStore = create((set) => ({
   refreshUser: async () => {
     const { data, error } = await supabase.auth.getUser();
     if (!error) {
-      // get user profile and user balances using join
       const { data: userProfile } = await supabase
         .from("users")
         .select("*, user_balances(balance, total_income, total_expense)")
