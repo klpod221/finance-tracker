@@ -17,6 +17,8 @@ export default function Dashboard() {
           },
         ]}
       />
+
+      {/* TODO: Thêm chức năng thống kê */}
       <p>Welcome to the dashboard page</p>
     </>
   );

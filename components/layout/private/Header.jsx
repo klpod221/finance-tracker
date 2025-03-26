@@ -25,6 +25,7 @@ const { Header } = Layout;
 import { getAll } from "@/actions/notification";
 import UserBalance from "@/components/UserBalance";
 
+// TODO: Tách Notification thành một component riêng và thêm các chức năng cần thiết
 export default function PrivateHeader({ collapsed, setCollapsed }) {
   const router = useRouter();
   const notify = useNotify();

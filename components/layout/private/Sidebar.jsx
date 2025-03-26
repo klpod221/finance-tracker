@@ -12,6 +12,7 @@ import {
   SettingOutlined,
   QuestionCircleOutlined,
   MenuFoldOutlined,
+  ApiOutlined,
 } from "@ant-design/icons";
 
 import { Layout, Menu, Button } from "antd";
@@ -25,7 +26,17 @@ const menuItems = [
     icon: <LineChartOutlined />,
     label: "Savings Goals",
   },
-  { key: "groups", icon: <TeamOutlined />, label: "Financial Groups", disabled: true },
+  {
+    key: "groups",
+    icon: <TeamOutlined />,
+    label: "Financial Groups",
+    disabled: true,
+  },
+  {
+    key: "api-manager",
+    icon: <ApiOutlined />,
+    label: "API Manager",
+  },
   { key: "settings", icon: <SettingOutlined />, label: "Settings" },
   { key: "help", icon: <QuestionCircleOutlined />, label: "Help & Support" },
 ];

@@ -7,13 +7,8 @@ import { Form, DatePicker, Input, Select } from "antd";
 export default function TransactionForm({
   form,
   onFinish,
-  categories,
+  type
 }) {
-  const categoriesOptions = categories.map((category) => ({
-    label: `${category.name}`,
-    value: category.id,
-  }));
-
   return (
     <Form
       form={form}
@@ -25,7 +20,7 @@ export default function TransactionForm({
         });
       }}
       initialValues={{
-        type: "expense",
+        type: type || "income",
         date: dayjs(),
         amount: 0,
       }}
@@ -47,24 +42,11 @@ export default function TransactionForm({
             { label: "Expense", value: "expense" },
           ]}
           placeholder="Select a type"
-        />
-      </Form.Item>
-      <Form.Item
-        name="category_id"
-        label="Category"
-        rules={[{ required: true }]}
-      >
-        <Select
-          showSearch
-          options={categoriesOptions}
-          filterOption={(input, option) =>
-            option.label.toLowerCase().includes(input.toLowerCase())
-          }
-          placeholder="Select a category"
+          disabled={!!type}
         />
       </Form.Item>
       <Form.Item name="note" label="Note">
-        <Input.TextArea />
+        <Input.TextArea rows={4} />
       </Form.Item>
     </Form>
   );

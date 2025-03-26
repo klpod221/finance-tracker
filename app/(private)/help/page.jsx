@@ -6,6 +6,7 @@ export const metadata = {
 export default function Help() {
   return (
     <>
+      {/* TODO: Thêm phần hỗ trợ (có thể chat realtime hoặc tích hợp của bên thứ 3) */}
       <p>Welcome to the Help & Support page</p>
     </>
   );

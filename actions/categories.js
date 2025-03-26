@@ -39,6 +39,27 @@ export async function search(
   };
 }
 
+export async function get(id) {
+  const supabase = await createClient();
+  const { data: user, error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    throw new Error(userError.message);
+  }
+
+  const res = await supabase
+    .from("categories")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.user.id)
+    .single();
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res;
+}
+
 export async function getAll() {
   const supabase = await createClient();
   const { data: user, error: userError } = await supabase.auth.getUser();
@@ -97,6 +118,21 @@ export async function update(id, formData) {
 
 export async function remove(id) {
   const supabase = await createClient();
+
+  // Check if the category is used in transactions
+  const { data: transactions, error: transactionError } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("category_id", id);
+
+  if (transactionError) {
+    throw new Error(transactionError.message);
+  }
+
+  if (transactions.length > 0) {
+    throw new Error("Cannot delete category. It is used in transactions.");
+  }
+
   const res = await supabase.from("categories").delete().eq("id", id);
 
   if (res.error) {

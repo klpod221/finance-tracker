@@ -8,7 +8,9 @@ import { Form, Space, Input, Select, ColorPicker } from "antd";
 import * as Icons from "@ant-design/icons";
 
 export default function CategoryForm({ form, onFinish }) {
-  const [period, setPeriod] = React.useState(form.getFieldValue("period") || "monthly");
+  const [period, setPeriod] = React.useState(
+    form.getFieldValue("period") || "monthly"
+  );
 
   return (
     <Form
@@ -21,6 +23,8 @@ export default function CategoryForm({ form, onFinish }) {
       initialValues={{
         icon: "DollarCircleOutlined",
         color: "#a0dc50",
+        budget: 0,
+        type: "income",
       }}
     >
       <Form.Item
@@ -30,6 +34,20 @@ export default function CategoryForm({ form, onFinish }) {
       >
         <Input />
       </Form.Item>
+      <Form.Item
+        name="type"
+        label="Type"
+        rules={[{ required: true, message: "Please select a type" }]}
+      >
+        <Select
+          options={[
+            { label: "Income", value: "income" },
+            { label: "Expense", value: "expense" },
+          ]}
+          defaultValue="expense"
+        />
+      </Form.Item>
+      {/* TODO: Nếu type = income thì sẽ disable phần budget */}
       <Form.Item name="budget" label="Budget">
         <MoneyInput
           addonBefore="VND"
@@ -66,6 +84,9 @@ export default function CategoryForm({ form, onFinish }) {
             option.value.toLowerCase().includes(inputValue.toLowerCase())
           }
         />
+      </Form.Item>
+      <Form.Item name="description" label="Description">
+        <Input.TextArea rows={3} />
       </Form.Item>
       <Form.Item
         name="color"

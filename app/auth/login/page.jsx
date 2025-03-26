@@ -37,6 +37,7 @@ export default function LoginPage() {
             </h2>
             <p className="text-center text-sm/6 text-gray-500">
               Not a member?
+              {/* TODO: Thêm trang đăng ký */}
               <Button
                 type="link"
                 className="!px-1"
@@ -88,6 +89,7 @@ export default function LoginPage() {
               </Form.Item>
 
               <div className="flex items-center justify-between">
+                {/* TODO: Thêm chức năng ghi nhớ đăng nhập */}
                 <Form.Item
                   name="remember"
                   valuePropName="checked"
@@ -98,6 +100,7 @@ export default function LoginPage() {
                 </Form.Item>
 
                 <div className="text-sm">
+                  {/* TODO: Thêm chức năng quên mật khẩu */}
                   <Button
                     type="link"
                     href="#"

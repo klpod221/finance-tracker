@@ -23,7 +23,10 @@ export default function Settings() {
         ]}
       />
       <div className="flex flex-col lg:flex-row mt-4 gap-4">
+        {/* TODO: Thêm upload avatar cho user */}
         <ProfileCard />
+
+        {/* TODO: Chuyển phần đổi mật khẩu thành modal */}
         <PasswordChange />
       </div>
     </>

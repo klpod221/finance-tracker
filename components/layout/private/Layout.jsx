@@ -17,7 +17,7 @@ export default function PrivateLayout({ children }) {
       <Layout>
         <PrivateHeader collapsed={collapsed} setCollapsed={setCollapsed} />
 
-        <Layout.Content className="mt-4 mx-4 overflow-y-auto">
+        <Layout.Content className="pt-4 px-4 overflow-y-auto">
           {children}
         </Layout.Content>
 

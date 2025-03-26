@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^5.69.0",
     "antd": "^5.24.4",
     "currency-codes": "^2.2.0",
+    "framer-motion": "^12.6.0",
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
     "next": "15.2.3",
