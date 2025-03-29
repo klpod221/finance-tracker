@@ -6,6 +6,7 @@ import MoneyInput from "@/components/MoneyInput";
 
 import { Form, Space, Input, Select, ColorPicker } from "antd";
 import * as Icons from "@ant-design/icons";
+import IconByName from "../IconByName";
 
 export default function CategoryForm({ form, onFinish }) {
   const [period, setPeriod] = React.useState(
@@ -44,7 +45,6 @@ export default function CategoryForm({ form, onFinish }) {
             { label: "Income", value: "income" },
             { label: "Expense", value: "expense" },
           ]}
-          defaultValue="expense"
         />
       </Form.Item>
       {/* TODO: Nếu type = income thì sẽ disable phần budget */}
@@ -53,7 +53,6 @@ export default function CategoryForm({ form, onFinish }) {
           addonBefore="VND"
           addonAfter={
             <Select
-              defaultValue={period}
               onChange={(value) => {
                 setPeriod(value);
               }}
@@ -74,7 +73,7 @@ export default function CategoryForm({ form, onFinish }) {
             value: icon,
             label: (
               <Space>
-                {React.createElement(Icons[icon])}
+                <IconByName name={icon} />
                 <span>{icon}</span>
               </Space>
             ),

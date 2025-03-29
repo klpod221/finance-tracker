@@ -65,7 +65,6 @@ export default function ProfileCard() {
             >
               <Input
                 placeholder="Enter your name"
-                defaultValue={user.name}
                 className="w-full"
                 onChange={(e) => setUser({ ...user, name: e.target.value })}
               />

@@ -60,7 +60,13 @@ export default function TransactionTable({
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await search(pagination, sorter, keywords.current, filters);
+      const res = await search(
+        { categoryId, groupId },
+        pagination,
+        sorter,
+        keywords.current,
+        filters
+      );
       setData(res.data);
       setPagination(res.pagination);
     } catch (error) {
@@ -138,7 +144,7 @@ export default function TransactionTable({
       console.error("Error deleting item:", error);
       notify.error("Failed to delete item");
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -179,10 +185,6 @@ export default function TransactionTable({
       title: "Type",
       dataIndex: "type",
       sorter: true,
-      filters: [
-        { text: "Income", value: "income" },
-        { text: "Expense", value: "expense" },
-      ],
       filterMode: "tree",
       render: (type) => <TagType type={type} />,
     },
@@ -232,8 +234,7 @@ export default function TransactionTable({
             Transactions {detailItem ? `in ${detailItem.name}` : ""}
           </h2>
           <p className="text-gray-500">
-            List of transactions for the selected{" "}
-            {categoryId && " category."}
+            List of transactions for the selected {categoryId && " category."}
             {groupId && " group."}
           </p>
         </div>

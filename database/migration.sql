@@ -128,6 +128,22 @@ CREATE TABLE user_balances (
 );
 
 -- ==============================
+-- API Management
+-- ==============================
+DROP TABLE IF EXISTS api_keys;
+CREATE TABLE api_keys (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    name TEXT NOT NULL,
+    key TEXT NOT NULL UNIQUE,
+    last_used TIMESTAMP,
+    status TEXT DEFAULT 'active' CHECK (status IN ('active', 'inactive')),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE (user_id, key),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ==============================
 -- Group Balances
 -- ==============================
 DROP TABLE IF EXISTS group_balances;
@@ -138,59 +154,3 @@ CREATE TABLE group_balances (
     balance NUMERIC DEFAULT 0 CHECK (balance >= 0),
     FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
 );
-
--- ==============================
--- Daily Transactions 
--- ==============================
-DROP MATERIALIZED VIEW IF EXISTS daily_transactions;
-CREATE MATERIALIZED VIEW daily_transactions AS
-SELECT
-    user_id,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) AS total_income,
-    SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS total_expense,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS balance,
-    date_trunc('day', date) AS date
-FROM transactions
-GROUP BY user_id, date_trunc('day', date)
-WITH DATA;
-
--- ==============================
--- Monthly Transactions
--- ==============================
-DROP MATERIALIZED VIEW IF EXISTS monthly_transactions;
-CREATE MATERIALIZED VIEW monthly_transactions AS
-SELECT
-    user_id,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) AS total_income,
-    SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS total_expense,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS balance,
-    date_trunc('month', date) AS date
-FROM transactions
-GROUP BY user_id, date_trunc('month', date)
-WITH DATA;
-
--- ==============================
--- Yearly Transactions
--- ==============================
-DROP MATERIALIZED VIEW IF EXISTS yearly_transactions;
-CREATE MATERIALIZED VIEW yearly_transactions AS
-SELECT
-    user_id,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) AS total_income,
-    SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS total_expense,
-    SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS balance,
-    date_trunc('year', date) AS date
-FROM transactions
-GROUP BY user_id, date_trunc('year', date)
-WITH DATA;
-
--- ==============================
--- Cronjob to update views
--- ==============================
--- SELECT cron.unschedule('daily_transactions');
--- SELECT cron.unschedule('monthly_transactions');
--- SELECT cron.unschedule('yearly_transactions');
-
-SELECT cron.schedule('daily_transactions', '0 * * * *', 'REFRESH MATERIALIZED VIEW daily_transactions');
-SELECT cron.schedule('monthly_transactions', '0 0 * * *', 'REFRESH MATERIALIZED VIEW monthly_transactions');
-SELECT cron.schedule('yearly_transactions', '0 0 * * *', 'REFRESH MATERIALIZED VIEW yearly_transactions');

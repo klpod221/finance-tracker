@@ -103,10 +103,17 @@ export async function create(formData) {
 
 export async function update(id, formData) {
   const supabase = await createClient();
+
+  const { data: user, error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    throw new Error(userError.message);
+  }
+
   const res = await supabase
     .from("categories")
     .update(formData)
     .eq("id", id)
+    .eq("user_id", user.user.id)
     .select("*");
 
   if (res.error) {
@@ -119,11 +126,17 @@ export async function update(id, formData) {
 export async function remove(id) {
   const supabase = await createClient();
 
+  const { data: user, error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    throw new Error(userError.message);
+  }
+
   // Check if the category is used in transactions
   const { data: transactions, error: transactionError } = await supabase
     .from("transactions")
     .select("*")
-    .eq("category_id", id);
+    .eq("category_id", id)
+    .eq("user_id", user.user.id);
 
   if (transactionError) {
     throw new Error(transactionError.message);
@@ -133,7 +146,11 @@ export async function remove(id) {
     throw new Error("Cannot delete category. It is used in transactions.");
   }
 
-  const res = await supabase.from("categories").delete().eq("id", id);
+  const res = await supabase
+    .from("categories")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.user.id);
 
   if (res.error) {
     throw new Error(res.error.message);

@@ -7,7 +7,7 @@ export default function IconByName({ name, ...props }) {
 
   if (!IconComponent) {
     console.warn(`Icon "${name}" not found in Ant Design icons.`);
-    return null;
+    return <div {...props} />;
   }
 
   return <IconComponent {...props} />;

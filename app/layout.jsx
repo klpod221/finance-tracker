@@ -70,6 +70,7 @@ export const metadata = {
   },
 };
 
+// TODO: Thêm loading khi chuyển trang (cho 2 layout private và public)
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

@@ -1,4 +1,31 @@
+import { Breadcrumb } from "antd";
+import { HomeOutlined } from "@ant-design/icons";
+
+import ApiManagerTable from "@/components/ApiManagerTable";
+
+export const metadata = {
+  title: "API Manager | Finance Tracker by klpod221",
+  description: "Manage your API keys here",
+};
+
 export default function ApiManager() {
-  // TODO: Thêm chức năng quản lý API và thống kê sử dụng API (tạo bảng để quản lý)
-  return <div>Welcome to api manager page</div>;
+
+  return (
+    <>
+      <Breadcrumb
+        items={[
+          {
+            href: "/dashboard",
+            title: <HomeOutlined />,
+          },
+          {
+            title: "API Manager",
+          },
+        ]}
+      />
+      <div className="mt-4">
+        <ApiManagerTable />
+      </div>
+    </>
+  );
 }

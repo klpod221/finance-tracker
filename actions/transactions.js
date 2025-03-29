@@ -25,6 +25,7 @@ export async function create(formData) {
 }
 
 export async function search(
+  { categoryId = null, groupId = null } = {},
   pagination,
   sorter = {},
   searchText = "",
@@ -39,28 +40,25 @@ export async function search(
 
   const { current, pageSize } = pagination;
   const { field, order } = sorter;
-  const { type } = filters;
 
-  let res = {};
+  let query = supabase
+    .from("transactions")
+    .select("*", { count: "exact" })
+    .eq("user_id", user.user.id);
 
-  if (type) {
-    res = await supabase
-      .from("transactions")
-      .select("*", { count: "exact" })
-      .eq("user_id", user.user.id)
-      .in("type", type)
-      .order(field || "created_at", { ascending: order === "ascend" })
-      .range((current - 1) * pageSize, current * pageSize - 1);
-  } else {
-    res = await supabase
-      .from("transactions")
-      .select("*", { count: "exact" })
-      .eq("user_id", user.user.id)
-      .order(field || "created_at", { ascending: order === "ascend" })
-      .range((current - 1) * pageSize, current * pageSize - 1);
+  if (categoryId) {
+    query = query.eq("category_id", categoryId);
+  } else if (groupId) {
+    query = query.eq("group_id", groupId);
   }
 
-  const { data, count, error } = res;
+  if (searchText) {
+    query = query.ilike("note", `%${searchText}%`);
+  }
+    
+  const { data, count, error } = await query
+    .order(field || "created_at", { ascending: order === "ascend" })
+    .range((current - 1) * pageSize, current * pageSize - 1);
 
   if (error) {
     throw new Error(error.message);
@@ -99,7 +97,15 @@ export async function update(id, formData) {
 
 export async function remove(id) {
   const supabase = await createClient();
-  const res = await supabase.from("transactions").delete().eq("id", id);
+  const { data: user, error } = await supabase.auth.getUser();
+  if (error) {
+    throw new Error(error.message);
+  }
+  const res = await supabase
+    .from("transactions")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.user.id);
 
   if (res.error) {
     throw new Error(res.error.message);
