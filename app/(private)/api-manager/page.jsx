@@ -9,7 +9,6 @@ export const metadata = {
 };
 
 export default function ApiManager() {
-
   return (
     <>
       <Breadcrumb
