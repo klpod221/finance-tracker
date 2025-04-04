@@ -11,6 +11,7 @@ This is a simple finance tracker that allows you to keep track of your income an
 
 The goal of this project is to provide a simple and easy-to-use finance tracker that can be used by anyone. It is not meant to be a full-fledged finance management tool, but rather a simple way to keep track of your income and expenses.
 
+**This project is in development and is not yet ready for production use.**
 ## Features
 
 - [x] User authentication
